@@ -1,0 +1,15 @@
+{% extends 'docs/base.html' %}
+{% block content %}
+<div class="maincontainer">
+    {% include 'docs/inc/navbar.html' %}
+    {% include 'docs/inc/sidebar.html' %}
+    <div class="maincontent">
+        {% for item in content %}
+        {% if item.docfile %}
+        <a href="{{item.docfile.url}}" target="_blank">{{ item.title }}</a>
+        <br />
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

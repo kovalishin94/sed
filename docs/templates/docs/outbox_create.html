@@ -1,0 +1,14 @@
+{% extends 'docs/base.html' %}
+{% block content %}
+<div class="maincontainer">
+    {% include 'docs/inc/navbar.html' %}
+    {% include 'docs/inc/sidebar.html' %}
+    <div class="maincontent">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Создать</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

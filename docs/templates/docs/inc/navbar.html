@@ -1,0 +1,10 @@
+<header>
+    <div class="navbuttons">
+        <a href={% url 'main' %}>Исходящие</a>
+        <a href="#">Входящие</a>
+    </div>
+    <div class="welcome-user">
+        Добро пожаловать, {{ user.last_name }}!
+        <a href={% url 'logout' %}>Выйти</a>
+    </div>
+</header>
