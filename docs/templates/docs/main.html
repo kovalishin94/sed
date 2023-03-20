@@ -4,12 +4,46 @@
     {% include 'docs/inc/navbar.html' %}
     {% include 'docs/inc/sidebar.html' %}
     <div class="maincontent">
-        {% for item in content %}
-        {% if item.docfile %}
-        <a href="{{item.docfile.url}}" target="_blank">{{ item.title }}</a>
-        <br />
-        {% endif %}
-        {% endfor %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Краткое содержание</th>
+                    <th scope="col">Исполнитель</th>
+                    <th scope="col">Подписант</th>
+                    <th scope="col">Адресат</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col">Регистрационный номер</th>
+                    <th scope="col">Доступные действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if content %}
+                {% for item in content %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.user }}</td>
+                    <td>{{ item.signatory }}</td>
+                    <td>{{ item.address }}</td>
+                    <td>{{ item.get_status_display }}</td>
+                    <td>{{ item.reg_num }}</td>
+                    <td>
+                        {% if item.status == 'P' or item.status == 'C' or item.status == 'D' %}
+                        <a href="#">Редактировать</a>
+                        <a href={% url 'deldoc' item.pk %}>Удалить</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="8" align="center">Нет документов</td>
+                </tr>
+                {% endif %}
+
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock content %}

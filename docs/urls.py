@@ -8,7 +8,8 @@ urlpatterns = [
     path('', index, name='auth'),
     path('logout/', user_logout, name='logout'),
     path('main/', main, name='main'),
-    path('newoutbox/', newoutbox, name='newoutbox')
+    path('newoutbox/', newoutbox, name='newoutbox'),
+    path('deldoc/<int:pk>', del_doc, name='deldoc'),
 ]
 
 if DEBUG:

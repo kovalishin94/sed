@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -31,7 +32,11 @@ def user_logout(request):
 
 @login_required
 def main(request):
-    content = Doc.objects.filter(user=Person.objects.get(name_id=request.user.pk))
+    try:
+        person = Person.objects.get(name_id=request.user.pk)
+        content = Doc.objects.filter(user_id=person.pk)
+    except:
+        content=''
     return render(request, 'docs/main.html', {'content': content})
 
 @login_required
@@ -43,6 +48,15 @@ def newoutbox(request):
             doc.status = 'C'
             doc.user = Person.objects.get(name_id=request.user.pk)
             doc.save()
+            return redirect('main')
     else:
         form = NewOutboxForm()
-    return render(request, 'docs/outbox_create.html', {'form': form})    
+    return render(request, 'docs/outbox_create.html', {'form': form})
+
+@login_required
+def del_doc(request, pk):
+    try:
+        Doc.objects.get(pk=pk).delete()
+    except:
+        raise Http404
+    return redirect('main')

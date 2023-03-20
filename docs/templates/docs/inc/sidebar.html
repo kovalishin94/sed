@@ -1,5 +1,15 @@
 <div class="mainsidebar">
-    <a href={% url 'newoutbox' %}>
+    <a href={% url 'newoutbox' %} class="sedbtn">
         Создать
     </a>
+    {% if user.per.can_agree %}
+    <a href={% url 'newoutbox' %} class="sedbtn">
+        Согласовать
+    </a>
+    {% endif %}
+    {% if user.per.can_sign %}
+    <a href={% url 'newoutbox' %} class="sedbtn">
+        Подписать
+    </a>
+    {% endif %}
 </div>

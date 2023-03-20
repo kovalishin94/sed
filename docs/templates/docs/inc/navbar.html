@@ -1,10 +1,10 @@
 <header>
     <div class="navbuttons">
-        <a href={% url 'main' %}>Исходящие</a>
-        <a href="#">Входящие</a>
+        <a href={% url 'main' %} class="sedbtn">Исходящие</a>
+        <a href="#" class="sedbtn">Входящие</a>
     </div>
     <div class="welcome-user">
-        Добро пожаловать, {{ user.last_name }}!
-        <a href={% url 'logout' %}>Выйти</a>
+        Добро пожаловать, {{ user.last_name }} {{ user.first_name }}!
+        <a href={% url 'logout' %} class="sedbtn">Выйти</a>
     </div>
 </header>

@@ -1,14 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Doc(models.Model):
     STATUS_CHOICES = [
         ('P', 'Подготовка'),
+        ('D', 'Доработка'),
         ('C', 'Согласование'),
         ('S', 'Подписание'),
         ('R', 'Регистрация'),
-        ('A', 'Отправлено'),
+        ('A', 'Зарегистрировано'),
     ]
     title = models.CharField(
         max_length=150,
@@ -21,10 +23,30 @@ class Doc(models.Model):
         verbose_name='Исполнитель',
         related_name='exe'
     )
-    reg_num = models.CharField(
-        max_length=50,
+    agreementer = models.ForeignKey(
+        'Person',
+        on_delete=models.PROTECT,
         blank=True,
-        verbose_name='Регистрационный номер'
+        verbose_name='Согласующий',
+        related_name='agr'
+    )
+
+    signatory = models.ForeignKey(
+        'Person',
+        on_delete=models.PROTECT,
+        related_name='sign',
+        verbose_name='Подписант',
+    )
+    address = models.ForeignKey(
+        'Institution',
+        on_delete=models.PROTECT,
+        verbose_name='Учреждение',
+    )
+    recepient = models.ForeignKey(
+        'Person',
+        on_delete=models.PROTECT,
+        related_name='recep',
+        verbose_name='Получатель'
     )
     status = models.CharField(
         max_length=50,
@@ -33,19 +55,18 @@ class Doc(models.Model):
         blank=True, default='P'
     )
     docfile = models.FileField(
-        blank=True,
         upload_to='docs/%Y/%m/%d/',
         verbose_name='Документ',
     )
-    signatory = models.ForeignKey(
-        'Person',
-        on_delete=models.PROTECT,
+    reg_num = models.CharField(
+        max_length=50,
         blank=True,
-        related_name='sign',
-        verbose_name='Подписант',
-        default=None,
+        verbose_name='Регистрационный номер'
     )
 
+    # def get_absolute_url(self):
+    #     return reverse("model_detail", kwargs={"pk": self.pk})
+    
     class Meta:
         verbose_name = 'Документ'
         verbose_name_plural = 'Документы'
@@ -66,12 +87,21 @@ class Institution(models.Model):
 class Person(models.Model):
     name = models.OneToOneField(
         User, on_delete=models.PROTECT,
-        verbose_name='Сотрудник'
+        verbose_name='Сотрудник',
+        related_name='per'
     )
     institution = models.ForeignKey(
         Institution,
         on_delete=models.PROTECT,
         verbose_name='Наименование учреждения'
+    )
+    can_sign = models.BooleanField(
+        verbose_name='Имеет право подписи',
+        default=False,
+    )
+    can_agree = models.BooleanField(
+        verbose_name='Может согласовать',
+        default=False,
     )
 
     class Meta:
