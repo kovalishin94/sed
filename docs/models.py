@@ -30,7 +30,6 @@ class Doc(models.Model):
         verbose_name='Согласующий',
         related_name='agr'
     )
-
     signatory = models.ForeignKey(
         'Person',
         on_delete=models.PROTECT,
@@ -63,9 +62,9 @@ class Doc(models.Model):
         blank=True,
         verbose_name='Регистрационный номер'
     )
-
-    # def get_absolute_url(self):
-    #     return reverse("model_detail", kwargs={"pk": self.pk})
+    
+    def get_absolute_url(self):
+        return reverse("doc_detail", kwargs={"pk": self.pk})
     
     class Meta:
         verbose_name = 'Документ'

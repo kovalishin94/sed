@@ -22,16 +22,21 @@
                 {% for item in content %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ item.title }}</td>
+                    <td><a href={{ item.docfile.url }} target="_blank">{{ item.title }}</a></td>
                     <td>{{ item.user }}</td>
                     <td>{{ item.signatory }}</td>
                     <td>{{ item.address }}</td>
                     <td>{{ item.get_status_display }}</td>
                     <td>{{ item.reg_num }}</td>
                     <td>
-                        {% if item.status == 'P' or item.status == 'C' or item.status == 'D' %}
-                        <a href="#">Редактировать</a>
-                        <a href={% url 'deldoc' item.pk %}>Удалить</a>
+                        {% if user.per == item.agreementer %}
+                        <a href={% url 'agree' item.pk %}>Согласовать</a>
+                        <a href={% url 'revision' item.pk %}>Вернуть на доработку</a>
+                        {% else %}
+                            {% if item.status == 'P' or item.status == 'C' or item.status == 'D' %}
+                            <a href={% url 'updateoutbox' item.pk %}>Редактировать</a>
+                            <a href={% url 'deldoc' item.pk %}>Удалить</a>
+                            {% endif %}
                         {% endif %}
                     </td>
                 </tr>
