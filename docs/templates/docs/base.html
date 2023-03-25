@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 {% block head %}
@@ -15,5 +16,19 @@
 <body>
     {% block content %}{% endblock content %}
     <script src={% static 'docs/js/bootstrap.min.js' %}></script>
+    <script src={% static 'docs/js/jquery-3.6.4.min.js' %}></script>
+    <!-- <script src={% static 'docs/js/index.js' %}></script> -->
+    <!-- <script>
+        $.ajax("{% url 'ajax' %}", {
+            success: (data) => {
+                data.forEach(el => {
+                    console.log(el.title)
+                }
+                )
+            }
+        }
+        )
+    </script> -->
+    {% block js %}{% endblock js %}
 </body>
 </html>

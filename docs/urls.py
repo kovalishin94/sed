@@ -13,7 +13,8 @@ urlpatterns = [
     path('deldoc/<int:pk>', del_doc, name='deldoc'),
     path('agree/<int:pk>', agree, name='agree'),
     path('revision/<int:pk>', revision, name='revision'),
-    path('updateoutbox/<int:pk>', UpdateOutbox.as_view(), name='updateoutbox')
+    path('updateoutbox/<int:pk>', UpdateOutbox.as_view(), name='updateoutbox'),
+    path('ajax/', ajax, name='ajax'),
 ]
 
 if DEBUG:

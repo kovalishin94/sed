@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -114,3 +114,7 @@ def revision(request, pk):
     else:
         raise Http404
     return redirect('outbox')
+
+def ajax(request):
+    person = list(Person.objects.values())
+    return JsonResponse(person, safe=False)

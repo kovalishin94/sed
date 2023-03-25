@@ -89,6 +89,11 @@ class Person(models.Model):
         verbose_name='Сотрудник',
         related_name='per'
     )
+    last_name = models.CharField(
+        max_length=150,
+        verbose_name='Фамилия',
+        blank=True,
+    )
     institution = models.ForeignKey(
         Institution,
         on_delete=models.PROTECT,
